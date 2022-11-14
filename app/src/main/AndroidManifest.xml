@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OpenWeather"
+        android:name=".WeatherApp"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"

@@ -1,6 +1,10 @@
 plugins {
     androidLibrary()
-    kotlin()
+    daggerHilt()
+    kotlinParcelize()
+    kotlinAndroid()
+    kotlinKapt()
+    ktlint()
 }
 
 android {
@@ -34,6 +38,33 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+    implementation(project(":common"))
 
+    kotlinComponent()
     androidXComponent()
+    lifeCycleComponent()
+    hiltComponent()
+    retrofitComponent()
+    okHttpComponent()
+
+    implementation(Others.TIMBER)
+    implementation(Others.JACKSON)
+    implementation(Others.STETHO)
+    implementation(Others.GSON)
+}
+
+ktlint {
+    debug.set(true)
+    verbose.set(true)
+    android.set(true)
+    outputToConsole.set(true)
+    outputColorName.set("RED")
+    reporters {
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
+    }
+    filter {
+        exclude("**/generated/**")
+        include("**/kotlin/**")
+    }
 }

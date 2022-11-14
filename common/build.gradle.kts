@@ -1,6 +1,9 @@
 plugins {
     androidLibrary()
-    kotlin()
+    kotlinParcelize()
+    kotlinAndroid()
+    kotlinKapt()
+    ktlint()
 }
 
 android {
@@ -34,6 +37,8 @@ android {
 }
 
 dependencies {
-
     androidXComponent()
+    kotlinComponent()
+    androidXComponent()
+    lifeCycleComponent()
 }

@@ -1,7 +1,7 @@
 package com.a90ms.openweather.data
 
-import com.a90ms.domain.data.city.City
-import com.a90ms.domain.data.city.Coord
+import com.a90ms.domain.data.entity.city.City
+import com.a90ms.domain.data.entity.city.Coord
 
 val cityList = listOf(
     City(

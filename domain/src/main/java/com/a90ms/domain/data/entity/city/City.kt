@@ -1,4 +1,4 @@
-package com.a90ms.domain.data.city
+package com.a90ms.domain.data.entity.city
 
 data class City(
     val id: Long,

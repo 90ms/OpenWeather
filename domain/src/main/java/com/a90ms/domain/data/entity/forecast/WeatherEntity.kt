@@ -12,6 +12,7 @@ data class WeatherEntity(
         id = id,
         main = main,
         description = description,
-        icon = icon
+        icon = icon,
+        iconUrl = "http://openweathermap.org/img/wn/${icon}@2x.png"
     )
 }

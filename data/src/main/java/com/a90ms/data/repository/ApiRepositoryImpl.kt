@@ -8,5 +8,5 @@ class ApiRepositoryImpl(
     private val apiService: ApiService
 ) : ApiRepository {
     override suspend fun getForecast(lat: Double, lon: Double) =
-        apiService.getForecast(lat, lon).list
+        apiService.getForecast(lat, lon).list.map(ListEntity::toDto)
 }

@@ -1,8 +1,8 @@
 package com.a90ms.domain.repository
 
-import com.a90ms.domain.data.entity.forecast.ListEntity
+import com.a90ms.domain.data.dto.ListDto
 
 interface ApiRepository {
 
-    suspend fun getForecast(lat: Double, lon: Double): List<ListEntity>
+    suspend fun getForecast(lat: Double, lon: Double): List<ListDto>
 }

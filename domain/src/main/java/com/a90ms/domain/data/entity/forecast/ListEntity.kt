@@ -23,6 +23,7 @@ data class ListEntity(
         visibility = visibility,
         pop = pop,
         sys = sys.toDto(),
-        dt_txt = dt_txt
+        dt_txt = dt_txt,
+        shortDate = dt_txt.substring(0,10)
     )
 }

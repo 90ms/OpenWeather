@@ -11,5 +11,6 @@ data class ListDto(
     val visibility: Long,
     val pop: Double,
     val sys: SysDto,
-    val dt_txt: String
+    val dt_txt: String,
+    val shortDate: String
 ) : DataEntity

@@ -1,12 +1,10 @@
 package com.a90ms.data.di
 
 import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import com.a90ms.data.BuildConfig
-import com.a90ms.data.api.Const
 import com.a90ms.data.api.Const.DEFAULT_TIME_OUT
 import com.a90ms.data.api.Const.HOST_NAME_CUR
 import com.a90ms.data.api.Const.HOST_URL
@@ -15,21 +13,20 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
+import javax.inject.Singleton
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
-import java.util.concurrent.TimeUnit
-import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -56,7 +53,7 @@ object NetworkCoreModule {
 
     private fun checkResponseAndReturn(response: Response, context: Context): Response {
         if (!response.isSuccessful) {
-            //TODO Response Error
+            // TODO Response Error
         }
         return response
     }

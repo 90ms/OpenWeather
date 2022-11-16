@@ -24,6 +24,6 @@ data class ListEntity(
         pop = pop,
         sys = sys.toDto(),
         dt_txt = dt_txt,
-        shortDate = dt_txt.substring(0,10)
+        shortDate = dt_txt.substring(0, 10)
     )
 }

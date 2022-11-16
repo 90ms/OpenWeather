@@ -5,8 +5,8 @@ import com.a90ms.domain.data.dto.ListDto
 import com.a90ms.domain.data.entity.city.City
 import com.a90ms.domain.di.IoDispatcher
 import com.a90ms.domain.repository.ApiRepository
-import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineDispatcher
 
 class GetForecastListUseCase @Inject constructor(
     private val apiRepository: ApiRepository,

@@ -21,7 +21,8 @@ class MainViewModel @Inject constructor(
 
     fun fetch() {
         viewModelScope.launch {
-            cityList.forEach { fetchForecast(it) }
+//            cityList.forEach { fetchForecast(it) }
+            fetchForecast(cityList[0])
         }
     }
 
@@ -29,9 +30,9 @@ class MainViewModel @Inject constructor(
         getForecastListUseCase(city).onSuccess {
             Timber.d("onSuccess(${city.name}) => ${it.manufactureList()}")
         }.onError { code, message ->
-            Timber.e("onError => $code / $message")
+            Timber.e("onError(${city.name}) => $code / $message")
         }.onException {
-            Timber.e("onException => ${it.message}")
+            Timber.e("onException(${city.name}) => ${it.message}")
         }
     }
 

@@ -27,9 +27,4 @@ class BaseViewHolder(
         }
         binding.executePendingBindings()
     }
-
-    fun bind(item: Any, click: (item: Any, pos: Int) -> Unit, pos: Int) {
-        bind(item)
-        binding.root.setOnClickListener { click(item, pos) }
-    }
 }

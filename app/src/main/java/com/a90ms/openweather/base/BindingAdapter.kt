@@ -9,6 +9,7 @@ import com.a90ms.common.isValidContext
 import com.a90ms.domain.data.dto.MainDto
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import kotlin.math.roundToInt
 
 @BindingAdapter("bindList")
 fun RecyclerView.bindList(item: List<Any>?) {
@@ -39,8 +40,9 @@ fun ImageView.bindImage(
 
 @BindingAdapter("bindTemp")
 fun TextView.bindTemp(main: MainDto) {
-    val max = main.temp_max
-    val min = main.temp_min
+    val max = main.temp_max.roundToInt()
+    val min = main.temp_min.roundToInt()
 
-    text = "Max : $max °C   Min : $min °C"
+    val value = "Max : ${max}°C   Min : ${min}°C"
+    text = value
 }

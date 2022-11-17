@@ -20,6 +20,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         setupBinding()
+        setupObserver()
         setupRecyclerView()
         setupData()
     }
@@ -27,8 +28,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun setupBinding() {
         with(binding) {
             vm = viewModel
-            btnAa.setOnClickListener {
+            srl.setOnRefreshListener {
                 setupData()
+            }
+        }
+    }
+
+    private fun setupObserver() {
+        viewModel.state.observe(this) {
+            when (it) {
+                MainState.OnCompleteFetch -> binding.srl.isRefreshing = false
             }
         }
     }

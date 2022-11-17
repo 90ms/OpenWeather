@@ -13,7 +13,6 @@ import com.a90ms.openweather.base.BaseViewModel
 import com.a90ms.openweather.data.cityList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -25,16 +24,17 @@ class MainViewModel @Inject constructor(
     private val _itemList = MutableLiveData<List<MainItem>>()
     val itemList: LiveData<List<MainItem>> get() = _itemList
 
+    private val _state = MutableLiveData<MainState>()
+    val state: LiveData<MainState> get() = _state
+
     private val list = mutableListOf<MainItem>()
 
     suspend fun fetch() = viewModelScope.launch {
-        val seoulDeferred = async { fetchForecast(cityList[0]) }
-        val londonDeferred = async { fetchForecast(cityList[1]) }
-        val chicagoDeferred = async { fetchForecast(cityList[2]) }
-
-        seoulDeferred.await()
-        londonDeferred.await()
-        chicagoDeferred.await()
+        list.clear()
+        cityList.forEach {
+            fetchForecast(it).join()
+        }
+        _state.value = MainState.OnCompleteFetch
     }
 
     private fun fetchForecast(city: City) = viewModelScope.launch {
@@ -51,8 +51,12 @@ class MainViewModel @Inject constructor(
             }
             _itemList.value = list
         }.onError { code, message ->
+            list.add(MainItem.Header(city.name + "[조회 실패]"))
+            _itemList.value = list
             Timber.e("onError(${city.name}) => $code / $message")
         }.onException {
+            list.add(MainItem.Header(city.name + "[조회 실패]"))
+            _itemList.value = list
             Timber.e("onException(${city.name}) => ${it.message}")
         }
     }

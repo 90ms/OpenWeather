@@ -53,7 +53,7 @@ object NetworkCoreModule {
 
     private fun checkResponseAndReturn(response: Response, context: Context): Response {
         if (!response.isSuccessful) {
-            // TODO Response Error
+            showNetworkErrorToast(response, context)
         }
         return response
     }

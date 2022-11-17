@@ -12,11 +12,10 @@ import com.a90ms.domain.usecase.GetForecastListUseCase
 import com.a90ms.openweather.base.BaseViewModel
 import com.a90ms.openweather.data.cityList
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(

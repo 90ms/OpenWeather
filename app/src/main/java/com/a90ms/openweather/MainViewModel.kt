@@ -14,7 +14,6 @@ import com.a90ms.openweather.data.cityList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -34,10 +33,10 @@ class MainViewModel @Inject constructor(
         cityList.forEach {
             fetchForecast(it).join()
         }
-        _state.value = MainState.OnCompleteFetch
     }
 
-    private fun fetchForecast(city: City) = viewModelScope.launch {
+    private suspend fun fetchForecast(city: City) = viewModelScope.launch {
+        showLoading()
         getForecastListUseCase(city).onSuccess {
             list.add(MainItem.Header(city.name))
 
@@ -45,21 +44,18 @@ class MainViewModel @Inject constructor(
 
             responseList.forEachIndexed { index, listDto ->
                 list.add(MainItem.Weather(listDto))
-                if (index <responseList.size - 1) {
+                if (index < responseList.size - 1) {
                     list.add(MainItem.Divider)
                 }
             }
 
             _itemList.value = list
         }.onError { code, message ->
-            list.add(MainItem.Header(city.name + "[조회 실패]"))
-            _itemList.value = list
-            Timber.e("onError(${city.name}) => $code / $message")
+            _state.value = MainState.OnError("$code / $message")
         }.onException {
-            list.add(MainItem.Header(city.name + "[조회 실패]"))
-            _itemList.value = list
-            Timber.e("onException(${city.name}) => ${it.message}")
+            _state.value = MainState.OnError(it.message ?: "onExeption")
         }
+        hideLoading()
     }
 
     private fun List<ListDto>.manufactureList() = groupBy {

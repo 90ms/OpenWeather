@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
+import com.a90ms.common.toast
 import com.a90ms.openweather.base.BaseActivity
 import com.a90ms.openweather.base.BaseMultiViewAdapter
 import com.a90ms.openweather.base.ViewHolderType
@@ -20,6 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         setupBinding()
+        setupLoadingObserver(viewModel)
         setupObserver()
         setupRecyclerView()
         setupData()
@@ -29,6 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         with(binding) {
             vm = viewModel
             srl.setOnRefreshListener {
+                binding.srl.isRefreshing = false
                 setupData()
             }
         }
@@ -37,7 +40,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun setupObserver() {
         viewModel.state.observe(this) {
             when (it) {
-                MainState.OnCompleteFetch -> binding.srl.isRefreshing = false
+                is MainState.OnError -> toast(it.msg)
             }
         }
     }

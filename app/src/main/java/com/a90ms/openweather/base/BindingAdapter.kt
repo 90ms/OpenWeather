@@ -43,6 +43,6 @@ fun TextView.bindTemp(main: MainDto) {
     val max = main.temp_max.roundToInt()
     val min = main.temp_min.roundToInt()
 
-    val value = "Max : ${max}°C   Min : ${min}°C"
+    val value = "Max : $max°C   Min : $min°C"
     text = value
 }

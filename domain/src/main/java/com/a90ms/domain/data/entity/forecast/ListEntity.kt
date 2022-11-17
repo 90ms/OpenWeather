@@ -1,6 +1,5 @@
 package com.a90ms.domain.data.entity.forecast
 
-import com.a90ms.common.convertTimestampToDate
 import com.a90ms.domain.base.DataEntity
 import com.a90ms.domain.data.dto.ListDto
 
@@ -17,7 +16,6 @@ data class ListEntity(
 ) : DataEntity {
     fun toDto() = ListDto(
         dt = dt,
-        dateToString = (dt * 1000L).convertTimestampToDate(),
         main = main.toDto(),
         weather = weather.map(WeatherEntity::toDto),
         clouds = clouds.toDto(),

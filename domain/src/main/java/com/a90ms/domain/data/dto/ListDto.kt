@@ -4,7 +4,6 @@ import com.a90ms.domain.base.DataEntity
 
 data class ListDto(
     val dt: Long,
-    val dateToString: String,
     val main: MainDto,
     val weather: List<WeatherDto>,
     val clouds: CloudsDto,

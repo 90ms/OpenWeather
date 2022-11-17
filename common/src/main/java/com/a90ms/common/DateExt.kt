@@ -4,27 +4,11 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 const val DATE_PATTERN_yyyy_MM_dd = "yyyy-MM-dd"
 
 fun commonSdf(pattern: String) = SimpleDateFormat(pattern, Locale.KOREA)
-
-fun String.convertTime(): String =
-    commonSdf(DATE_PATTERN_yyyy_MM_dd).parse(this)?.let { date ->
-
-        val today = Calendar.getInstance().time.time
-        val dateDiff = (date.time - today)
-
-        val label = stringToDateParser(DATE_PATTERN_yyyy_MM_dd).dayOfWeekLabel()
-
-        return when {
-            dateDiff < 1 -> "오늘"
-            dateDiff == 1L -> "내일"
-            else -> "$label ${this.substring(5, 10).replace("-", " ")}"
-        }
-    } ?: run {
-        return this
-    }
 
 fun String.stringToDateParser(pattern: String): Date = commonSdf(pattern).parse(this) as Date
 
@@ -38,3 +22,24 @@ fun Date.dayOfWeekLabel() =
         Calendar.SATURDAY -> "토"
         else -> "일"
     }
+
+fun String.covertTime(): String {
+    val today = Calendar.getInstance().apply {
+        set(Calendar.HOUR, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }
+
+    val date = stringToDateParser(DATE_PATTERN_yyyy_MM_dd)
+    val dateDiff = date.time - today.time.time
+    val day: Long = TimeUnit.MILLISECONDS.toDays(dateDiff)
+
+    return when {
+        date.time - today.time.time < 0 -> "오늘"
+        day == 0L -> "내일"
+        else -> {
+            "${date.dayOfWeekLabel()} ${substring(5)}"
+        }
+    }
+}

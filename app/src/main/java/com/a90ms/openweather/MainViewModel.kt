@@ -53,7 +53,7 @@ class MainViewModel @Inject constructor(
         }.onError { code, message ->
             _state.value = MainState.OnError("$code / $message")
         }.onException {
-            _state.value = MainState.OnError(it.message ?: "onExeption")
+            _state.value = MainState.OnError(it.message ?: "onException")
         }
         hideLoading()
     }

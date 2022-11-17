@@ -47,6 +47,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             val viewHolderMapper: (MainItem) -> ViewHolderType = {
                 when (it) {
                     is MainItem.Header -> ItemHolderType.HeaderHolder
+                    MainItem.Divider -> ItemHolderType.DividerHolder
                     is MainItem.Weather -> ItemHolderType.WeatherHolder
                 }
             }
@@ -84,6 +85,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     ) : ViewHolderType {
         HeaderHolder(
             layoutResourceId = R.layout.item_header,
+            bindingItemId = BR.item
+        ),
+        DividerHolder(
+            layoutResourceId = R.layout.item_divider,
             bindingItemId = BR.item
         ),
         WeatherHolder(

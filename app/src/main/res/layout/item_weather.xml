@@ -15,15 +15,55 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="5dp">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{item.item.shortDate}"
-            tools:text="날짜"
+            android:textStyle="bold"
             android:textColor="@color/black"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="날짜" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_weather_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            bindImage="@{item.item.weather.get(0).iconUrl}"
+            bindPlaceHolder="@{@drawable/ic_default_photo}"
+            app:layout_constraintStart_toStartOf="@id/tv_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_date"
+            tools:src="@tools:sample/avatars" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_weather_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{item.item.weather.get(0).description}"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_weather_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_weather_icon"
+            app:layout_constraintStart_toEndOf="@id/iv_weather_icon"
+            tools:text="날씨설명" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            bindTemp="@{item.item.main}"
+            android:textSize="13dp"
+            android:textColor="@color/grey_74"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="max 1°C  min 2°C" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,7 +1,14 @@
 package com.a90ms.openweather.base
 
+import android.graphics.drawable.Drawable
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.a90ms.common.isValidContext
+import com.a90ms.domain.data.dto.MainDto
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 
 @BindingAdapter("bindList")
 fun RecyclerView.bindList(item: List<Any>?) {
@@ -15,4 +22,25 @@ fun RecyclerView.bindList(item: List<Any>?) {
         }
         submitList(newItems)
     }
+}
+
+@BindingAdapter("bindImage", "bindPlaceHolder")
+fun ImageView.bindImage(
+    url: String?,
+    placeHolder: Drawable? = null
+) {
+    if (context.isValidContext()) {
+        Glide.with(context)
+            .load(url)
+            .apply(RequestOptions().error(placeHolder).placeholder(placeHolder))
+            .into(this)
+    }
+}
+
+@BindingAdapter("bindTemp")
+fun TextView.bindTemp(main: MainDto) {
+    val max = main.temp_max
+    val min = main.temp_min
+
+    text = "Max : $max °C   Min : $min °C"
 }

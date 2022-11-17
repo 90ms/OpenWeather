@@ -40,15 +40,16 @@ class MainViewModel @Inject constructor(
     private fun fetchForecast(city: City) = viewModelScope.launch {
         getForecastListUseCase(city).onSuccess {
             list.add(MainItem.Header(city.name))
-            it.manufactureList().forEach {
-                list.add(
-                    MainItem.Weather(
-                        it.copy(
-                            shortDate = it.shortDate + "(${city.name})"
-                        )
-                    )
-                )
+
+            val responseList = it.manufactureList()
+
+            responseList.forEachIndexed { index, listDto ->
+                list.add(MainItem.Weather(listDto))
+                if (index <responseList.size - 1) {
+                    list.add(MainItem.Divider)
+                }
             }
+
             _itemList.value = list
         }.onError { code, message ->
             list.add(MainItem.Header(city.name + "[조회 실패]"))

@@ -30,8 +30,8 @@ Design
 ------
 
 - [Material Design](https://material.io)
-- [x][Weather_Icons1](https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2)
-- [ ][Weather_Icons](https://erikflowers.github.io/weather-icons/)
+- [x] [Weather_Icons1](https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2)
+- [ ] [Weather_Icons](https://erikflowers.github.io/weather-icons/)
 
 API
 ------

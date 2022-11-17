@@ -1,5 +1,7 @@
 package com.a90ms.openweather
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.a90ms.domain.base.onError
 import com.a90ms.domain.base.onException
@@ -10,25 +12,45 @@ import com.a90ms.domain.usecase.GetForecastListUseCase
 import com.a90ms.openweather.base.BaseViewModel
 import com.a90ms.openweather.data.cityList
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getForecastListUseCase: GetForecastListUseCase
 ) : BaseViewModel() {
 
-    fun fetch() {
-        viewModelScope.launch {
-//            cityList.forEach { fetchForecast(it) }
-            fetchForecast(cityList[0])
-        }
+    private val _itemList = MutableLiveData<List<MainItem>>()
+    val itemList: LiveData<List<MainItem>> get() = _itemList
+
+    private val list = mutableListOf<MainItem>()
+
+    suspend fun fetch() = viewModelScope.launch {
+        val seoulDeferred = async { fetchForecast(cityList[0]) }
+        val londonDeferred = async { fetchForecast(cityList[1]) }
+        val chicagoDeferred = async { fetchForecast(cityList[2]) }
+
+        seoulDeferred.await()
+        londonDeferred.await()
+        chicagoDeferred.await()
     }
 
-    private suspend fun fetchForecast(city: City) {
+    private fun fetchForecast(city: City) = viewModelScope.launch {
         getForecastListUseCase(city).onSuccess {
-            Timber.d("onSuccess(${city.name}) => ${it.manufactureList()}")
+            list.add(MainItem.Header(city.name))
+            it.manufactureList().forEach {
+                list.add(
+                    MainItem.Weather(
+                        it.copy(
+                            shortDate = it.shortDate + "(${city.name})"
+                        )
+                    )
+                )
+            }
+            _itemList.value = list
         }.onError { code, message ->
             Timber.e("onError(${city.name}) => $code / $message")
         }.onException {
